@@ -2,19 +2,19 @@ package edu.mum.mail.model;
 
 import java.sql.Date;
 
-public class mail {
+public class mailView {
 	private int mailId;
 	private Date deliveryDate;
 	private String sender;
 	private String deliveredBy;
-	private int status;
-	private int personId;
+	private String status;
+	private String personId;
 	
-	public mail() {
+	public mailView() {
 		
 	}
 
-	public mail(int mailId, Date deliveryDate, String sender, String deliveredBy, int status, int personId) {
+	public mailView(int mailId, Date deliveryDate, String sender, String deliveredBy, String status, String personId) {
 
 		this.mailId = mailId;
 		this.deliveryDate = deliveryDate;
@@ -47,16 +47,16 @@ public class mail {
 	public void setDeliveredBy(String deliveredBy) {
 		this.deliveredBy = deliveredBy;
 	}
-	public int getStatus() {
+	public String getStatus() {
 		return status;
 	}
-	public void setStatus(int status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
-	public int getPersonId() {
+	public String getPersonId() {
 		return personId;
 	}
-	public void setPersonId(int personId) {
+	public void setPersonId(String personId) {
 		this.personId = personId;
 	}
 }

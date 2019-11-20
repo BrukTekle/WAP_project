@@ -46,7 +46,8 @@ public class mailDAO2 {
               String sender = rs.getString("sender");
               String deliveredBy = rs.getString("deliveredBy");
               int status = rs.getInt("status");
-              mail data = new mail(mailId, deliveryDate, sender, deliveredBy, status);
+              int personid=rs.getInt("personId");
+              mail data = new mail(mailId, deliveryDate, sender, deliveredBy, status, personid);
               list.add(data);
           }
       } catch (SQLException e) {
@@ -55,14 +56,73 @@ public class mailDAO2 {
       return list;
   }
   
+  public String getPersonName(int personId) {
+	  String fullName="";
+      try {
+          Connection connection = dataSource.getConnection();     
+          PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM `mum-mail-notification-system`.person "
+          		+ "where personId='"+personId+"'");
+          ResultSet rs = pstmt.executeQuery();
+          if(rs.next()) {
+        	  String fName = rs.getString("firstName");
+              String lName = rs.getString("lastName");
+              fullName=fName + " " + lName;
+          }
+              
+      } catch (SQLException e) {
+          System.err.println(e);
+      }
+      return fullName;
+  }
+  
+  //get status Name from ststus id
+  public String getStatusName(int statusId) {
+	  String status="";
+      try {
+          Connection connection = dataSource.getConnection();     
+          PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM `mum-mail-notification-system`.mail_status "
+          		+ "where mailStatusId="+statusId);
+          ResultSet rs = pstmt.executeQuery();
+          if(rs.next()) {
+        	  status= rs.getString("status");
+          }
+              
+
+      } catch (SQLException e) {
+          System.err.println(e);
+      }
+      return status;
+  }
+  
+  public List<mail> getAllMail() {
+      List<mail> list = new ArrayList<>();
+      try {
+          Connection connection = dataSource.getConnection();     
+          PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM `mum-mail-notification-system`.mail "
+          		+ " order by deliveryDate");
+          ResultSet rs = pstmt.executeQuery();        
+          while(rs.next()) {
+              int mailId = rs.getInt("mailId");
+              Date deliveryDate = rs.getDate("deliveryDate");
+              String sender = rs.getString("sender");
+              String deliveredBy = rs.getString("deliveredBy");
+              int status = rs.getInt("status");
+              int personId=rs.getInt("personId");
+              mail data = new mail(mailId, deliveryDate, sender, deliveredBy, status,personId);
+              list.add(data);
+          }
+      } catch (SQLException e) {
+          System.err.println(e);
+      }
+      return list;
+  }
   
   //to get filtered mail list
   public List<mail> getFilteredMail(String text) {
       List<mail> list = new ArrayList<>();
       try {
           Connection connection = dataSource.getConnection();     
-//          PreparedStatement pstmt = connection.prepareStatement("SELECT mailId, deliveryDate, sender, deliveredBy, status FROM `mum-mail-notification-system`.mail"
-//          		+ "where personId='"+personId+"' order by deliveryDate");
+
           PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM `mum-mail-notification-system`.mail "
           		+ "where personId='"+text+"' OR deliveryDate LIKE '%"+text+"%' OR sender LIKE '%"+text+"%' OR " + 
           		"deliveredBy LIKE '%"+text+"%' OR status LIKE '%"+text+"%' OR personId LIKE '%"+text+"%' order by deliveryDate");
@@ -74,7 +134,8 @@ public class mailDAO2 {
               String sender = rs.getString("sender");
               String deliveredBy = rs.getString("deliveredBy");
               int status = rs.getInt("status");
-              mail data = new mail(mailId, deliveryDate, sender, deliveredBy, status);
+              int personId=rs.getInt("personId");
+              mail data = new mail(mailId, deliveryDate, sender, deliveredBy, status, personId);
               list.add(data);
           }
       } catch (SQLException e) {
@@ -105,10 +166,9 @@ public class mailDAO2 {
       try {
           Connection connection = dataSource.getConnection();
           PreparedStatement pstmt = connection.prepareStatement("UPDATE `mum-mail-notification-system`.mail SET `status`=? where mailId=?");
-          
-          
-          pstmt.setInt (1, mailId);
-          pstmt.setInt(2, status);
+
+          pstmt.setInt (1, status);
+          pstmt.setInt(2, mailId);
           pstmt.executeUpdate();
       } catch (SQLException e) {
           System.err.println(e);

@@ -15,12 +15,12 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "mailController", urlPatterns = {"/mailController"}, description = "mailController")
-public class mailController extends HttpServlet {
+@WebServlet(name = "AdminMailController", urlPatterns = {"/AdminMailController"}, description = "AdminMailController")
+public class AdminMailController extends HttpServlet {
 
     private mailDAO2 mailDAO;
 
-    public mailController() {
+    public AdminMailController() {
         this.mailDAO = new mailDAO2();
     }
 
@@ -29,13 +29,10 @@ public class mailController extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        List<mail> mailList = mailDAO.getMail(1);
-
-        
         List<mailView> mailList = new ArrayList<mailView>(); 
     	List<mail> allMail=new ArrayList<mail>();
-        allMail=mailDAO.getMail(1);
-        
+
+        allMail=mailDAO.getAllMail();
     	for(mail list:allMail) {
     		 int mid=list.getMailId();
     		 Date deliveryDate=list.getDeliveryDate();
@@ -48,11 +45,8 @@ public class mailController extends HttpServlet {
     		 mailView newMail=new mailView(mid,deliveryDate,sender,deliveredBy,status,fullName);
     		 mailList.add(newMail);
     	}
-    	
-        
-        request.setAttribute("mailList", mailList);
 
-        RequestDispatcher rd = request.getRequestDispatcher("/check-mail.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/admin-check-mail.jsp");
         rd.forward(request, response);
     }
 }

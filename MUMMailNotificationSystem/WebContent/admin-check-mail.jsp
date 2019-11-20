@@ -12,11 +12,12 @@
 <body>
     <%@ include file="fragments/header.jsp"%>
     <div class="container"><br/>
-        <h2>List of Contact Messages</h2>
+        <h2>List of Customer's Mail</h2>
         <table class="table">
             <thead>
             <tr>
                 <th scope="col">mail id</th>
+                <th scope="col">Customer name</th>
                 <th scope="col">delivery Date</th>
                 <th scope="col">sender</th>
                 <th scope="col">delivered By</th>
@@ -28,6 +29,7 @@
                 <c:forEach var="list" items="${mailList}" varStatus="iteration">
                     <tr>
                         <td><c:out value="${list.mailId}"></c:out></td>
+                        <td><c:out value="${list.personId}"></c:out></td>
                         <td><c:out value="${list.deliveryDate}"></c:out></td>
                         <td><c:out value="${list.sender}"></c:out></td>
                         <td><c:out value="${list.deliveredBy}"></c:out></td>
