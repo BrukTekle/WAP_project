@@ -32,8 +32,11 @@
                         <td><c:out value="${list.sender}"></c:out></td>
                         <td><c:out value="${list.deliveredBy}"></c:out></td>
                         <td><c:out value="${list.status}"></c:out></td>
-                        <td><form><input type='submit'/></form></td>
- 
+                        <td><form action='./updateMailController' method='POST'>
+                        		<input type='submit'/>
+                        		<input type='hidden' value='${list.mailId}' name='mailId'/>
+                        	</form>
+                        </td>
                     </tr>
                 </c:forEach>
             </tbody>
