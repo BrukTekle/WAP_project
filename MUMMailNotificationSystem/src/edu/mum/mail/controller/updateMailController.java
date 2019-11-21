@@ -31,7 +31,7 @@ public class updateMailController extends HttpServlet {
     	
     	List<mailView> mailList=new ArrayList<mailView>();
     	List<mail> updatedMail=new ArrayList<mail>();
-    	updatedMail=mailDAO.getAllMail();
+    	updatedMail=mailDAO.getStatusMail(1);
     	for(mail list:updatedMail) {
     		 int mid=list.getMailId();
     		 Date deliveryDate=list.getDeliveryDate();
@@ -39,10 +39,8 @@ public class updateMailController extends HttpServlet {
     		 String deliveredBy=list.getDeliveredBy();
     		 int statusId=list.getStatus();
     		 int personId=list.getPersonId();
-    		 System.out.println(personId+"===="+statusId);
     		 String fullName=mailDAO.getPersonName(personId);
     		 String status=mailDAO.getStatusName(statusId);
-    		 System.out.println(fullName+"---"+status);
     		 mailView newMail=new mailView(mid,deliveryDate,sender,deliveredBy,status,fullName);
     		 mailList.add(newMail);
     	}

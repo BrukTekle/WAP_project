@@ -12,7 +12,7 @@
 <body>
     <%@ include file="fragments/header.jsp"%>
     <div class="container"><br/>
-        <h2>List of Customer's Mail</h2>
+        <h2>List of Customer</h2>
         <table class="table">
             <thead>
             <tr>
@@ -35,7 +35,7 @@
                         <td><c:out value="${list.deliveredBy}"></c:out></td>
                         <td><c:out value="${list.status}"></c:out></td>
                         <td><form action='./updateMailController' method='POST'>
-                        		<input type='submit' value="Send notification">
+                        		<input type='submit'/>
                         		<input type='hidden' value='${list.mailId}' name='mailId'/>
                         	</form>
                         </td>
@@ -43,7 +43,7 @@
                 </c:forEach>
             </tbody>
         </table>
-    </div>/
+    </div>
 
     <%@include file="fragments/footer.jsp"%>
 </body>

@@ -17,7 +17,7 @@
                     <a class="nav-link" href="#">Login</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./mailController">Check Mail</a>
+                    <a class="nav-link" href="./AdminMailController">Check Mail</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">About</a>

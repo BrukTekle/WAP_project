@@ -56,6 +56,34 @@ public class mailDAO2 {
       return list;
   }
   
+  //get mail with specific status
+  public List<mail> getStatusMail(int state) {
+      List<mail> list = new ArrayList<>();
+      Connection connection;
+      try {
+          connection = dataSource.getConnection();     
+
+          PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM `mum-mail-notification-system`.mail "
+          		+ "where status="+state+" order by deliveryDate");
+          ResultSet rs = pstmt.executeQuery();
+          
+          while(rs.next()) {
+              int mailId = rs.getInt("mailId");
+              Date deliveryDate = rs.getDate("deliveryDate");
+              String sender = rs.getString("sender");
+              String deliveredBy = rs.getString("deliveredBy");
+              int status = rs.getInt("status");
+              int personid=rs.getInt("personId");
+              mail data = new mail(mailId, deliveryDate, sender, deliveredBy, status, personid);
+              list.add(data);
+              
+          }
+      } catch (SQLException e) {
+          System.err.println(e);
+      }
+      return list;
+  }
+  
   public String getPersonName(int personId) {
 	  String fullName="";
       try {

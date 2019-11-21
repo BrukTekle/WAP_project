@@ -32,7 +32,8 @@ public class AdminMailController extends HttpServlet {
         List<mailView> mailList = new ArrayList<mailView>(); 
     	List<mail> allMail=new ArrayList<mail>();
 
-        allMail=mailDAO.getAllMail();
+//        allMail=mailDAO.getAllMail();
+        allMail=mailDAO.getStatusMail(1);
     	for(mail list:allMail) {
     		 int mid=list.getMailId();
     		 Date deliveryDate=list.getDeliveryDate();
@@ -45,7 +46,8 @@ public class AdminMailController extends HttpServlet {
     		 mailView newMail=new mailView(mid,deliveryDate,sender,deliveredBy,status,fullName);
     		 mailList.add(newMail);
     	}
-
+    	
+    	request.setAttribute("mailList", mailList);
         RequestDispatcher rd = request.getRequestDispatcher("/admin-check-mail.jsp");
         rd.forward(request, response);
     }
