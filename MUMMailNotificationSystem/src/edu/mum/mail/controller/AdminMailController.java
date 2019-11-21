@@ -1,6 +1,8 @@
 package edu.mum.mail.controller;
 
 import edu.mum.mail.dao.mailDAO2;
+import edu.mum.mail.model.Person;
+import edu.mum.mail.model.PersonView;
 import edu.mum.mail.model.mail;
 import edu.mum.mail.model.mailView;
 
@@ -29,26 +31,27 @@ public class AdminMailController extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<mailView> mailList = new ArrayList<mailView>(); 
-    	List<mail> allMail=new ArrayList<mail>();
+        List<PersonView> personList = new ArrayList<PersonView>(); 
+    	List<Person> allPerson=new ArrayList<Person>();
 
 //        allMail=mailDAO.getAllMail();
-        allMail=mailDAO.getStatusMail(1);
-    	for(mail list:allMail) {
-    		 int mid=list.getMailId();
-    		 Date deliveryDate=list.getDeliveryDate();
-    		 String sender=list.getSender();
-    		 String deliveredBy=list.getDeliveredBy();
-    		 int statusId=list.getStatus();
-    		 int personId=list.getPersonId();
-    		 String fullName=mailDAO.getPersonName(personId);
-    		 String status=mailDAO.getStatusName(statusId);
-    		 mailView newMail=new mailView(mid,deliveryDate,sender,deliveredBy,status,fullName);
-    		 mailList.add(newMail);
+        allPerson=mailDAO.getAllPerson();
+    	for(Person list:allPerson) {
+    		 int pid=list.getPersonId();
+    		 String fName=list.getFirstName();
+    		 String lName=list.getLastName();
+    		 String email=list.getEmail();
+    		 String tel=list.getTel();
+    		 String boxNumber=list.getBoxNumber();
+    		 int typeId=list.getType();
+    		 String type=mailDAO.getPersonType(typeId);
+    		 System.out.println("type= "+type);
+    		 PersonView newPerson=new PersonView(pid,fName,lName,email,tel,boxNumber,type);
+    		 personList.add(newPerson);
     	}
     	
-    	request.setAttribute("mailList", mailList);
-        RequestDispatcher rd = request.getRequestDispatcher("/admin-check-mail.jsp");
+    	request.setAttribute("mailList", personList);
+        RequestDispatcher rd = request.getRequestDispatcher("/admin-person-list.jsp");
         rd.forward(request, response);
     }
 }

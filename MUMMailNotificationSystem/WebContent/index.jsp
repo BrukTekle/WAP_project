@@ -6,6 +6,7 @@
   <title>MUMMailNotificationSystem</title>
   <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/solar/bootstrap.min.css" rel="stylesheet" integrity="sha384-8nq3OiMMgrVFAHyRMMO+DTfMEciSY+c3Awhj/5ljQ1xck1Uv2BUtMjsjLD8GT5Er" crossorigin="anonymous">
   <link rel="stylesheet" href="css/style.css">
+ 
 </head>
 <body>
     <%@ include file="fragments/header.jsp"%>
@@ -17,10 +18,11 @@
         <hr class="my-4">
         <p>Do not hesitate to contact us.</p>
         <p class="lead">
-          <a class="btn btn-primary btn-lg" href="#" role="button">Contact Us</a>
+          <a class="btn btn-primary btn-lg" href="about.jsp" role="button">Contact Us</a>
         </p>
       </div>
     </div>
     <%@include file="fragments/footer.jsp"%>
+    
 </body>
 </html>

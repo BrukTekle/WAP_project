@@ -16,14 +16,13 @@ import java.util.List;
 
 public class RegistrationDAO {
 
-//    @Resource(name = "jdbc/cs472-201911-lesson15-contacts-db")
     private DataSource dataSource;
-
-    public RegistrationDAO(String fname, String lname, String email, String phone, String boxnumber) {
+  
+    public RegistrationDAO() {
         try {
             Context initContext = new InitialContext();
             Context envContext = (Context) initContext.lookup("java:comp/env");
-            this.dataSource = (DataSource) envContext.lookup("jdbc/cs472-201911-lesson15-contacts-db");
+            this.dataSource = (DataSource) envContext.lookup("jdbc/mum-mail-notification-system");
         } catch (NamingException e) {
             System.err.println(e);
         }
@@ -33,17 +32,17 @@ public class RegistrationDAO {
         List<PersonRegistration> list = new ArrayList<>();
         try {
             Connection connection = dataSource.getConnection();
-            PreparedStatement pstmt = connection.prepareStatement("SELECT personId, fname, lname, ptype,email, phone, boxnumber FROM `cs472-201911-lesson15-contacts-db`.contacts order by personId");
+            PreparedStatement pstmt = connection.prepareStatement("SELECT `personId`, `firstName`, `lastName`, `type`, `email`, `phone`, `boxnumber` FROM `mum-mail-notification-system`.person order by personId");
             ResultSet rs = pstmt.executeQuery();
             while(rs.next()) {
                 int personid = rs.getInt("personId");
-                String fname = rs.getString("fname");
-                String lname = rs.getString("lname");
-                String ptype = rs.getString("ptype");
+                String firstName = rs.getString("fname");
+                String lastName = rs.getString("lname");
                 String email = rs.getString("email");
-                String phone = rs.getString("phone");
-                String boxnumber = rs.getString("boxnumber");
-                PersonRegistration data = new PersonRegistration(fname, lname, ptype, email, phone, boxnumber);
+                String tel = rs.getString("phone");
+                String boxNumber = rs.getString("boxnumber");
+                String type = rs.getString("ptype");
+                PersonRegistration data = new PersonRegistration(firstName, lastName, type, email, tel, boxNumber);
                 list.add(data);
             }
         } catch (SQLException e) {
@@ -55,13 +54,14 @@ public class RegistrationDAO {
     public PersonRegistration saveContactFormData(PersonRegistration registrationData) {
         try {
             Connection connection = dataSource.getConnection();
-            PreparedStatement pstmt = connection.prepareStatement("insert into `mum-mail-notification-system`.person (fname, lname, ptype, email, phone, boxnumber) values (?, ?, ?, ?, ?, ?)");
+            PreparedStatement pstmt = connection.prepareStatement("insert into `mum-mail-notification-system`.person (`firstName`, `lastName`, `type`, `email`, `tel`, `boxNumber`) values (?, ?, ?, ?, ?, ?)");
             pstmt.setString(1, registrationData.getFname());
-            pstmt.setString(1, registrationData.getLname());
-            pstmt.setString(1, registrationData.getPtype());
-            pstmt.setString(2, registrationData.getEmail());
-            pstmt.setString(3, registrationData.getPhone());
-            pstmt.setString(4, registrationData.getBoxnumber());
+            pstmt.setString(2, registrationData.getLname());
+            pstmt.setString(3, registrationData.getPtype());
+            pstmt.setInt(3, 1);
+            pstmt.setString(4, registrationData.getEmail());
+            pstmt.setString(5, registrationData.getPhone());
+            pstmt.setString(6, registrationData.getBoxnumber());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.err.println(e);
@@ -70,4 +70,41 @@ public class RegistrationDAO {
     }
 
 	
+
+
+public boolean deletePerson(PersonRegistration registrationData) throws SQLException {
+    String sql = "DELETE FROM `mum-mail-notification-system`.person where personId = ?";
+     
+    Connection connection = dataSource.getConnection();
+     
+    PreparedStatement pstmt = connection.prepareStatement(sql);
+    pstmt.setInt(1, registrationData.getPersonId());
+    
+    pstmt.executeUpdate();
+     
+    boolean rowDeleted = pstmt.executeUpdate() > 0;
+    pstmt.close();
+    System.out.println(rowDeleted);
+    return rowDeleted;     
+}
+ 
+public boolean updateBook(PersonRegistration registrationData) throws SQLException {
+    String sql = "UPDATE `mum-mail-notification-system`.person SET firstName = ?, lastName = ?, email = ?, type = ?, tel = ?, boxNumber = ?";
+    sql += " WHERE personId = ?";
+    Connection connection = dataSource.getConnection();
+     
+    PreparedStatement pstmt = connection.prepareStatement(sql);
+    pstmt.setString(1, registrationData.getFname());
+    pstmt.setString(2, registrationData.getLname());
+    pstmt.setString(3, registrationData.getEmail());
+    pstmt.setString(4, registrationData.getPtype());
+    pstmt.setString(5, registrationData.getPhone());
+    pstmt.setString(6, registrationData.getBoxnumber());
+     
+    boolean rowUpdated = pstmt.executeUpdate() > 0;
+    pstmt.close();
+    System.out.println(rowUpdated);
+    return rowUpdated;     
+}
+
 }

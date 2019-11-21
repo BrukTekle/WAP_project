@@ -8,49 +8,61 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import edu.mum.mail.dao.RegistrationDAO;
+import edu.mum.mail.dao.PersonTypeDAO;
+import edu.mum.mail.model.Person;
 import edu.mum.mail.model.PersonRegistration;
+import edu.mum.mail.model.PersonType;
 
 import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @WebServlet(name = "PersonRegistrationValidator", urlPatterns = {"/PersonRegistrationValidator"}, description = "PersonRegistrationValidator")
 public class PersonRegistrationValidator extends HttpServlet {
-
-    /**
-	 * 
-	 */
+     
+   
 	private static final long serialVersionUID = 1L;
-
+	private RegistrationDAO registrationDAO;
+	private PersonTypeDAO personTypeDao;
+	public PersonRegistrationValidator() {
+		registrationDAO=new RegistrationDAO();
+		personTypeDao=new PersonTypeDAO();
+	}
 	@Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String fname = request.getParameter("fName");
-        String lname = request.getParameter("lName");
-        String ptype = request.getParameter("pType");
+        String firstName = request.getParameter("fName");
+        String lastName = request.getParameter("lName");
         String email = request.getParameter("email");
-        String phone = request.getParameter("phone");
-        String boxnumber = request.getParameter("boxnumber");
-        System.out.println("fname = "+ fname + ", lname = " + lname + ", ptype = " + ptype + ", email = " + email + ", phone = " + phone + ", boxnumber = " + boxnumber);
-        PersonRegistration personregistration = new PersonRegistration(fname, lname, ptype, email, phone, boxnumber );
+        String tel = request.getParameter("phone");
+        String boxNumber = request.getParameter("boxnumber");
+        String type = request.getParameter("pType");
+        System.out.println("fname = "+ firstName + ", lname = " + lastName + ", ptype = " + type + ", email = " + email + ", phone = " + tel + ", boxnumber = " + boxNumber);
+        PersonRegistration personregistration = new PersonRegistration(firstName, lastName, type, email, tel, boxNumber );
+        Person personregistration = new Person(firstName, lastName, type, email, tel, boxNumber );
         request.setAttribute("personregistration", personregistration);
         // Check for missing fields data
         String missingFieldsMsg = "";
-        if(fname.equals("")) {
+        if(firstName.equals("")) {
             missingFieldsMsg += "<span style='color:red;font-size:1em'>First Name is missing.</span><br/>";
         }
-        if(lname.equals("null")) {
+        if(lastName.equals("")) {
             missingFieldsMsg += "<span style='color:red;'>Last Name is missing.</span><br/>";
         }
-        if(ptype==null || ptype.equals("null")) {
+        if(type==null || type.equals("null")) {
             missingFieldsMsg += "<span style='color:red;'>Person Type is missing.</span><br/>";
         }
-        if(email.equals("null")) {
+        if(email.equals("")) {
             missingFieldsMsg += "<span style='color:red;'>Email is missing.</span><br/>";
         }
-        if(phone.equals("")) {
+        if(tel.equals("")) {
             missingFieldsMsg += "<span style='color:red;'>Phone is missing.</span><br/>";
         }
-        if(boxnumber.equals("")) {
+        if(boxNumber.equals("")) {
             missingFieldsMsg += "<span style='color:red;'>Box Number is missing.</span><br/>";
         }
         if(!missingFieldsMsg.equals("")) {
@@ -60,20 +72,23 @@ public class PersonRegistrationValidator extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher("/person.jsp");
             rd.forward(request, response);
         } else {
-//            String redirectUrl = "thankyou?customerName="+customerName+"&radioGender="+gender+"&ddlCategory="+category+"&message="+message;
-//            response.sendRedirect(redirectUrl);
-            // set the current date/time
+  
+        	registrationDAO.saveContactFormData(personregistration);
             String currDateTime = ZonedDateTime.now().format(DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy - h:mm:ss a zzzz"));
             request.setAttribute("currDateTime", currDateTime);
             // forward ahead to thank-you
-            RequestDispatcher rd = request.getRequestDispatcher("/list-of-person");
+            RequestDispatcher rd = request.getRequestDispatcher("HomePage.jsp");
             rd.forward(request, response);
         }
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect("person");
+    	List<PersonType> listPersonType= personTypeDao.getAllPersonTypeFormData();
+
+    	request.getSession().setAttribute("ListPersonType", listPersonType);
+    	System.out.println(listPersonType);
+        request.getServletContext().getRequestDispatcher("/person.jsp").forward(request, response);;
     }
 }
 

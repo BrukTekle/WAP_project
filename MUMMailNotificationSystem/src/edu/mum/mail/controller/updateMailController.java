@@ -34,7 +34,7 @@ public class updateMailController extends HttpServlet {
     	updatedMail=mailDAO.getStatusMail(1);
     	for(mail list:updatedMail) {
     		 int mid=list.getMailId();
-    		 Date deliveryDate=list.getDeliveryDate();
+    		 Date deliveryDate=(Date) list.getDeliveryDate();
     		 String sender=list.getSender();
     		 String deliveredBy=list.getDeliveredBy();
     		 int statusId=list.getStatus();

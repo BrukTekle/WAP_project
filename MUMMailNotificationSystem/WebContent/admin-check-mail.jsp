@@ -35,7 +35,7 @@
                         <td><c:out value="${list.deliveredBy}"></c:out></td>
                         <td><c:out value="${list.status}"></c:out></td>
                         <td><form action='./updateMailController' method='POST'>
-                        		<input type='submit' value="Send notification">
+                        		<input type='submit' value="Delivered notification">
                         		<input type='hidden' value='${list.mailId}' name='mailId'/>
                         	</form>
                         </td>

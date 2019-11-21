@@ -13,11 +13,12 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import edu.mum.mail.model.ContactFormData;
-import edu.mum.mail.model.user;
+import edu.mum.mail.model.User;
+import edu.mum.mail.utils.PasswordHashing;
 
 public class userDAO {
 //================================================
-//  @Resource(name = "jdbc/cs472-201911-lesson15-contacts-db")
+//  @Resource(name = "mum-mail-notification-system")
   private DataSource dataSource;
 
   public userDAO() {
@@ -29,15 +30,53 @@ public class userDAO {
           System.err.println(e);
       }
   }
+   
+  
+  public User login(User user) {
+	  try {
+		  
+          Connection connection = dataSource.getConnection();
+          PreparedStatement pstmt = connection.prepareStatement("SELECT userName, password, role, personId FROM `mum-mail-notification-system`.users "
+          		+ "where userName=? AND  password=?");
+          pstmt.setString(1,user.getUserName() );
+          pstmt.setString(2, user.getPassword());
 
-  public user getUser(user userOb) {
-      List<ContactFormData> list = new ArrayList<>();
-      try {
+          ResultSet rs = pstmt.executeQuery();
+          if(rs.next()) {
+        	  user.setRole(rs.getInt("role"));
+              user.setPersonId(rs.getInt("personId"));
+        	  return user;
+          }
+      } catch (SQLException e) {
+          System.err.println(e);
+      }
+      return null;
+  }
+  public String getUserType(User user) {
+	  try {
+          Connection connection = dataSource.getConnection();
+          PreparedStatement pstmt = connection.prepareStatement("SELECT r.role FROM `mum-mail-notification-system`.users s inner join `mum-mail-notification-system`.user_role r  on s.role=r.roleId where s.userName=?");
+          pstmt.setString(1,user.getUserName() );
+       
+//          System.out.println(pstmt.toString());
+          ResultSet rs = pstmt.executeQuery();
+        
+          if(rs.next()) {
+        	  return rs.getString("role");
+          }
+      } catch (SQLException e) {
+          System.err.println(e);
+      }
+      return null;
+  }
+  
+  public User getUser(User user) {
+     try {
           Connection connection = dataSource.getConnection();
           PreparedStatement pstmt = connection.prepareStatement("SELECT userName, password, role, role, personId FROM `mum-mail-notification-system`.users "
           		+ "where userName=? AND  password=?");
-          pstmt.setString(1, userOb.getUserName());
-          pstmt.setString(2, userOb.getPassword());
+          pstmt.setString(1, user.getUserName());
+          pstmt.setString(2, user.getPassword());
           ResultSet rs = pstmt.executeQuery();
 
           while(rs.next()) {
@@ -55,19 +94,20 @@ public class userDAO {
       }
       return null;
   }
-  public ContactFormData saveContactFormData(ContactFormData contactFormData) {
+  public User saveUser(User user) throws Exception {
       try {
           Connection connection = dataSource.getConnection();
-          PreparedStatement pstmt = connection.prepareStatement("insert into `cs472-201911-lesson15-contacts-db`.contacts (customer_name, gender, category, message) values (?, ?, ?, ?)");
-          pstmt.setString(1, contactFormData.getName());
-          pstmt.setString(2, contactFormData.getGender());
-          pstmt.setString(3, contactFormData.getCategory());
-          pstmt.setString(4, contactFormData.getMessage());
+          PreparedStatement pstmt = connection.prepareStatement("insert into `mum-mail-notification-system`.users (userName, password, role, personId) values (?, ?, ?, ?)");
+          pstmt.setString(1, user.getUserName());
+          pstmt.setString(2, user.getPassword());
+          //pstmt.setString(2, PasswordHashing.encrypt(user.getPassword()).toString());
+          pstmt.setInt(3, user.getRole());
+          pstmt.setInt(4, user.getPersonId());
           pstmt.executeUpdate();
       } catch (SQLException e) {
           System.err.println(e);
       }
-      return contactFormData;
+      return user;
   }
 	
 	

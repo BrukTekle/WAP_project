@@ -1,9 +1,11 @@
 
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <title>CS472-WAP-Lab 11 Solution - Contact Form</title>
 <%--    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/cosmo/bootstrap.min.css" rel="stylesheet" integrity="sha384-uhut8PejFZO8994oEgm/ZfAv0mW1/b83nczZzSwElbeILxwkN491YQXsCFTE6+nx" crossorigin="anonymous">--%>
@@ -37,7 +39,7 @@
                 </div>
                 <div class="form-group">
                     <label for="customerName">*Phone:</label> <%-- Customer name  changed to lName and aria-describedby to be deleted if have no impact the format--%>
-                    <input type="text" class="form-control" id="phone" name="phone" aria-describedby="customerNameHelp" placeholder="" title="Enter phone" autofocus>
+                    <input type="text" class="form-control" id="phone" name="phone" aria-describedby="customerNameHelp" pattern ="+1\d{3}\d{3}\d{4}"placeholder="" title="Enter phone" autofocus>
                     <small id="customerNameHelp" class="form-text text-muted">Enter phone number.</small>
                 </div>
                 
@@ -46,16 +48,20 @@
                       <button class="btn btn-outline-secondary" type="button">Person Type</button>
                      </div>
                           <select class="custom-select" name="pType" aria-label="Example select with button addon">
-                                   <option selected value="null">Choose...</option>
-                                   <option value="1">Faculty</option>
-                                   <option value="2">Student</option>
-                                   <option value="3">Staff</option>
+                           <option selected value="null">Choose...</option>
+                            <c:forEach items="${ListPersonType}" var="per">
+                                 <option selected value="${per.type}"><c:out value="${per.type}"></c:out>
+                                 </option>
+                                   
+                            </c:forEach>
+                           
+                                   
                         </select>
                     </div>
                               
                 <div class="form-group"><%-- Id --%>
                     <label for="customerName">*Email:</label> <%-- Customer name  changed to lName--%>
-                    <input type="text" class="form-control" id="email" name="email" aria-describedby="customerNameHelp" placeholder="e.g. jsmith@mum.edu" title="Email" autofocus>
+                    <input type="email" class="form-control" id="email" name="email" aria-describedby="customerNameHelp" placeholder="e.g. jsmith@mum.edu" title="Email" autofocus>
                     <small id="customerNameHelp" class="form-text text-muted">Enter email.</small>
                 </div>
                 
@@ -66,6 +72,11 @@
                 </div>
                
                 <button id="btnSubmit" type="submit" class="btn btn-primary btn-block">Add</button>
+                
+                <%-- <button id="btnSubmit" name = "btnSubmit" type= "submit" class="btn btn-primary btn-lg">Add</button> --%>
+               <%-- <button id="btnUpdate" name = "btnUpdate" type= "submit" class="btn btn-primary btn-lg">Update</button> --%>
+                <%--<button id="btnDelete" name = "btnUpdate" type="submit" class="btn btn-primary btn-lg">Delete</button> --%>
+                
             </fieldset>
         </form>
     </div>

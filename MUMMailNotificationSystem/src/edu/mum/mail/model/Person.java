@@ -5,6 +5,19 @@ public class Person {
 	private String lastName;
 	private String firstName;
 	private String email;
+	public Person(int personId, String lastName, String firstName, String email, String tel, String boxNumber,
+			int type) {
+		this.personId = personId;
+		this.lastName = lastName;
+		this.firstName = firstName;
+		this.email = email;
+		this.tel = tel;
+		this.boxNumber = boxNumber;
+		this.type = type;
+	}
+	private String tel;
+	private String boxNumber;
+	private int type;
 	
 	public int getPersonId() {
 		return personId;
@@ -48,7 +61,5 @@ public class Person {
 	public void setType(int type) {
 		this.type = type;
 	}
-	private String tel;
-	private String boxNumber;
-	private int type;
+
 }

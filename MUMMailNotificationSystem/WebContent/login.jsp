@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Login</title>
@@ -10,9 +11,8 @@
 <div id="container">
     <%@ include file="fragments/header.jsp"%>
  
-    <div id="container">
-        <h1>Login Credentials</h1>
-        <form id="input" method="post" action="login">
+  <h2>Login Credentials</h2>
+  <form id="input" method="post" action="LoginValidator">
             <%
                 String value = "", checkbox = "";
                 Cookie[] cookies = request.getCookies();
@@ -27,17 +27,29 @@
                 }
                 //  value = request.getCookies()[0].getValue();
             %>
-            User Name:
-            <input id="userName" name="userName" required value='<%=value%>'/></br></br>
-            Password:
-            <input id="password" name="password" type='password' required/></br></br>
-            <div id="warn">
-
-            </div>
-            <button id="btn" type="button">Login</button>
-            <input id="submitBtn" type="submit" hidden>
-            <label><input id="cb" type='checkbox' name='remember' value="on" <%=checkbox%>/> Remember Me</label>
-        </form>
+    <c:if test="${isErrorPresent}">
+     <div>
+                        <p>
+                            ${errorMsg}
+                        </p>
+      </div>
+    </c:if>
+    <div  class="form-group">
+      <label for="userName">UserName:</label>
+      <input type="userName" class="form-control" id="userName" placeholder="Enter UserName" name="username" value='<%=value%>'>
+    </div>
+    <div class="form-group">
+      <label for="pwd">Password:</label>
+      <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password">
+    </div>
+    <div class="form-group form-check">
+      <label class="form-check-label">
+        <input class="form-check-input" type="checkbox" name="remember" <%=checkbox%>> Remember me
+      </label>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
     </div>
 
     <%@include file="fragments/footer.jsp"%>

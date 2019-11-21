@@ -23,6 +23,13 @@ public class mail {
 		this.status = status;
 		this.personId=personId;
 	}
+	public mail( Date date, String sender, String deliveredBy, int status, int personId) {
+		this.deliveryDate = date;
+		this.sender = sender;
+		this.deliveredBy = deliveredBy;
+		this.status = status;
+		this.personId=personId;
+	}
 	public int getMailId() {
 		return mailId;
 	}

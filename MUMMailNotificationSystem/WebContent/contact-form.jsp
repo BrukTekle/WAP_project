@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CS472-WAP-Lesson 15 - Contact Form</title>
+    <title>Contact Us</title>
 <%--    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/cosmo/bootstrap.min.css" rel="stylesheet" integrity="sha384-uhut8PejFZO8994oEgm/ZfAv0mW1/b83nczZzSwElbeILxwkN491YQXsCFTE6+nx" crossorigin="anonymous">--%>
     <%--  <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/united/bootstrap.min.css" rel="stylesheet" integrity="sha384-WTtvlZJeRyCiKUtbQ88X1x9uHmKi0eHCbQ8irbzqSLkE0DpAZuixT5yFvgX0CjIu" crossorigin="anonymous">  --%>
     <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/sketchy/bootstrap.min.css" rel="stylesheet" integrity="sha384-N8DsABZCqc1XWbg/bAlIDk7AS/yNzT5fcKzg/TwfmTuUqZhGquVmpb5VvfmLcMzp" crossorigin="anonymous">
@@ -15,7 +15,7 @@
     <div class="container"><br/>
         <form id="formCustomerContact" method="post" action="contact-form-data-validator">
             <fieldset>
-                <legend>Customer Contact Form</legend>
+                <legend>Contact Form</legend>
                 <c:if test="${isErrMsgsPresent}">
                     <div>
                         <p>
@@ -56,12 +56,7 @@
             </fieldset>
         </form>
     </div>
-    <div class="container">
-        <br/>
-        <br/>
-        <span class="text-muted">Hit Count for this page: 1</span>
-        <span style="float:right;" class="text-muted">Total Hit Count for the entire WebApp: 4</span>
-    </div>
+
 
     <%@include file="fragments/footer.jsp"%>
 </body>

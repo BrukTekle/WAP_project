@@ -1,6 +1,7 @@
 package edu.mum.mail.controller;
 
 import edu.mum.mail.dao.mailDAO2;
+import edu.mum.mail.model.User;
 import edu.mum.mail.model.mail;
 import edu.mum.mail.model.mailView;
 
@@ -10,6 +11,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -31,14 +34,19 @@ public class mailController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //        List<mail> mailList = mailDAO.getMail(1);
 
-        
+    	HttpSession session=request.getSession();
+		User user=(User)session.getAttribute("user");
+		Integer perID=null;
+		if(user!=null) {
+			perID=user.getPersonId();
+		}
         List<mailView> mailList = new ArrayList<mailView>(); 
     	List<mail> allMail=new ArrayList<mail>();
-        allMail=mailDAO.getMail(1);
+        allMail=mailDAO.getMail(perID);
         
     	for(mail list:allMail) {
     		 int mid=list.getMailId();
-    		 Date deliveryDate=list.getDeliveryDate();
+    		 Date deliveryDate=(Date) list.getDeliveryDate();
     		 String sender=list.getSender();
     		 String deliveredBy=list.getDeliveredBy();
     		 int statusId=list.getStatus();

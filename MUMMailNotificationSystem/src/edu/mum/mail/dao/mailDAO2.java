@@ -12,6 +12,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
+import edu.mum.mail.model.Person;
 import edu.mum.mail.model.mail;
 
 public class mailDAO2 {
@@ -145,6 +147,50 @@ public class mailDAO2 {
       return list;
   }
   
+  //get all person
+  public List<Person> getAllPerson() {
+      List<Person> list = new ArrayList<>();
+      try {
+          Connection connection = dataSource.getConnection();     
+          PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM `mum-mail-notification-system`.person "
+          		+ " order by firstName");
+          ResultSet rs = pstmt.executeQuery();        
+          while(rs.next()) {
+              int personId = rs.getInt("personId");
+              String fName = rs.getString("firstName");
+              String lName = rs.getString("lastName");
+              String email = rs.getString("email");
+              String tel = rs.getString("tel");
+              String boxNumber = rs.getString("boxNumber");
+              int type=rs.getInt("type");
+              Person data = new Person(personId, fName, lName, email, tel,boxNumber, type);
+              list.add(data);
+          }
+      } catch (SQLException e) {
+          System.err.println(e);
+      }
+      return list;
+  }
+  
+  //get person type
+  public String getPersonType(int typeId) {
+      String type ="";
+      try {
+          Connection connection = dataSource.getConnection();     
+          PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM `mum-mail-notification-system`.person_type "
+          		+ "where personTypeID='"+typeId+"'");
+          ResultSet rs = pstmt.executeQuery();        
+          while(rs.next()) {
+              type = rs.getString("type");
+            
+          }
+      } catch (SQLException e) {
+          System.err.println(e);
+      }
+      System.out.println("person type= "+ type);
+      return type;
+  }
+  
   //to get filtered mail list
   public List<mail> getFilteredMail(String text) {
       List<mail> list = new ArrayList<>();
@@ -177,7 +223,7 @@ public class mailDAO2 {
       try {
           Connection connection = dataSource.getConnection();
           PreparedStatement pstmt = connection.prepareStatement("insert into `mum-mail-notification-system`.mail (deliveryDate, sender, deliveredBy, status, personId) values (?, ?, ?, ?,?)");
-          pstmt.setDate (1, mailOb.getDeliveryDate());
+          pstmt.setDate(1, (java.sql.Date) mailOb.getDeliveryDate());
           pstmt.setString(2, mailOb.getSender());
           pstmt.setString(3, mailOb.getDeliveredBy());
           pstmt.setInt(4, mailOb.getStatus());
