@@ -23,8 +23,9 @@ public class PersonRegistration {
     public PersonRegistration() {
     }
 
-    public PersonRegistration(String fname, String lname, String ptype, String email, String phone, String boxnumber) {
-        this.fname = fname;
+    public PersonRegistration(int personID,String fname, String lname, String ptype, String email, String phone, String boxnumber) {
+        this.personId=personID;
+    	this.fname = fname;
         this.lname = lname;
         this.ptype = ptype;
         this.email = email;

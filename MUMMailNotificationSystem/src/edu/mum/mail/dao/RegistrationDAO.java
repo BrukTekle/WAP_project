@@ -32,17 +32,17 @@ public class RegistrationDAO {
         List<PersonRegistration> list = new ArrayList<>();
         try {
              connection = dataSource.getConnection();
-            PreparedStatement pstmt = connection.prepareStatement("SELECT `personId`, `firstName`, `lastName`, `type`, `email`, `phone`, `boxnumber` FROM `mum-mail-notification-system`.person order by personId");
+            PreparedStatement pstmt = connection.prepareStatement("SELECT `personId`, `firstName`, `lastName`, `type`, `email`, `tel`, `boxnumber` FROM `mum-mail-notification-system`.person order by personId");
             ResultSet rs = pstmt.executeQuery();
             while(rs.next()) {
                 int personid = rs.getInt("personId");
-                String firstName = rs.getString("fname");
-                String lastName = rs.getString("lname");
+                String firstName = rs.getString("firstName");
+                String lastName = rs.getString("lastName");
                 String email = rs.getString("email");
-                String tel = rs.getString("phone");
+                String tel = rs.getString("tel");
                 String boxNumber = rs.getString("boxnumber");
-                String type = rs.getString("ptype");
-                PersonRegistration data = new PersonRegistration(firstName, lastName, type, email, tel, boxNumber);
+                String type = rs.getString("type");
+                PersonRegistration data = new PersonRegistration(personid,firstName, lastName, type, email, tel, boxNumber);
                 list.add(data);
             }
         } catch (SQLException e) {

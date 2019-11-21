@@ -47,10 +47,13 @@
                  <div class="form-group">
                     <label for="ddlPerson">*Select Person:</label>
                     <select class="form-control" id="ddlPerson" name="ddlPerson">
-                        <option value="null">Select...</option>
-                        <option value="1">Amanuel Isack</option>
-                        <option value="2">Desalie Hdremariam</option>
-                        <option value="3">Bruk Andemariam</option>
+                         <option selected value="null">Choose...</option>
+                            <c:forEach items="${ListPersons}" var="per">
+                                 <option value="${per.personId}"><c:out value="${per.fname}  ${per.lname}"></c:out>
+                                 </option>
+                                   
+                            </c:forEach>
+                           
                     </select>
                 </div>
                 

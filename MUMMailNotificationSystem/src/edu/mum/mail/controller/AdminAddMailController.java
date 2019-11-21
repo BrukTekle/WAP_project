@@ -79,14 +79,8 @@ public class AdminAddMailController extends HttpServlet {
 				      response.sendRedirect("admin-person-list.jsp");
 
 				
-				
-//            request.setAttribute("savedUser", savedUser);
-//            RequestDispatcher rd = request.getRequestDispatcher("addMail.jsp");
-//            rd.forward(request, response);
         }
 //    	
-//    	request.setAttribute("mailList", mailList);
-//        RequestDispatcher rd = request.getRequestDispatcher("/admin-check-mail.jsp");
-//        rd.forward(request, response);
+
     }
 }

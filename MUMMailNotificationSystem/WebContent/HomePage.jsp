@@ -19,8 +19,8 @@
 		  	<% response.sendRedirect("login.jsp"); %>
 		  </c:if>
 		  
-		  
-		 		  <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+		  <c:if test="${userRole=='Admin'}">
+		   <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
 			  <thead>
 			    <tr>
 			      <th class="th-sm">UserName
@@ -70,6 +70,8 @@
 			    </tr>
 			  </tfoot>
 			</table>
+		  </c:if>
+		 		 
       </div>
       
       

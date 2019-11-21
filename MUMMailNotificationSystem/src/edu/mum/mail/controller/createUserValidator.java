@@ -60,6 +60,7 @@ public class createUserValidator extends HttpServlet {
             User savedUser=null;
 			try {
 				savedUser = userDAO.saveUser(user);
+				System.out.println(savedUser);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

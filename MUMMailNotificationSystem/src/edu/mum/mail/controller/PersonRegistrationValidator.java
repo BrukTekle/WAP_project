@@ -38,14 +38,15 @@ public class PersonRegistrationValidator extends HttpServlet {
 	}
 	@Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String firstName = request.getParameter("fName");
+		int personId =Integer.parseInt( request.getParameter("personId"));
+		String firstName = request.getParameter("fName");
         String lastName = request.getParameter("lName");
         String email = request.getParameter("email");
         String tel = request.getParameter("phone");
         String boxNumber = request.getParameter("boxnumber");
         String type = request.getParameter("pType");
         System.out.println("fname = "+ firstName + ", lname = " + lastName + ", ptype = " + type + ", email = " + email + ", phone = " + tel + ", boxnumber = " + boxNumber);
-        PersonRegistration personregistration = new PersonRegistration(firstName, lastName, type, email, tel, boxNumber );
+        PersonRegistration personregistration = new PersonRegistration(personId,firstName, lastName, type, email, tel, boxNumber );
         //Person personregistration = new Person(firstName, lastName, type, email, tel, boxNumber );
         request.setAttribute("personregistration", personregistration);
         // Check for missing fields data

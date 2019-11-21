@@ -98,14 +98,15 @@ public class userDAO {
   public User saveUser(User user) throws Exception {
       try {
            connection = dataSource.getConnection();
-          PreparedStatement pstmt = connection.prepareStatement("insert into `mum-mail-notification-system`.users (userName, password, role, personId,key) values (?, ?, ?, ?,?)");
+          PreparedStatement pstmt = connection.prepareStatement("insert into `mum-mail-notification-system`.users (userName, password, role, personId) values (?, ?, ?, ?)");
           pstmt.setString(1, user.getUserName());
           pstmt.setString(2, user.getPassword());
           //pstmt.setString(2, PasswordHashing.encrypt(user.getPassword()).toString());
           pstmt.setInt(3, user.getRole());
           pstmt.setInt(4, user.getPersonId());
-          pstmt.setBytes(5, user.getKey().toString().getBytes());
+         // pstmt.setBytes(5, user.getKey().toString().getBytes());
           pstmt.executeUpdate();
+          System.out.println(pstmt.toString());
       } catch (SQLException e) {
           System.err.println(e);
       }finally {

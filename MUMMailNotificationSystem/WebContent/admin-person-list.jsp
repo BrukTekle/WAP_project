@@ -11,41 +11,6 @@
 </head>
 <body>
     <%@ include file="fragments/header.jsp"%>
-<!--     <div class="container"><br/> -->
-<!--         <h2>List of Customer</h2> -->
-<!--         <table class="table"> -->
-<!--             <thead> -->
-<!--             <tr> -->
-<!--                 <th scope="col">mail id</th> -->
-<!--                 <th scope="col">Customer name</th> -->
-<!--                 <th scope="col">delivery Date</th> -->
-<!--                 <th scope="col">sender</th> -->
-<!--                 <th scope="col">delivered By</th> -->
-<!--                 <th scope="col">status</th> -->
-<!--                 <th scope="col">Send notification</th> -->
-<!--             </thead> -->
-<!--             <tbody> -->
-<%--                 <c:forEach var="list" items="${mailList}" varStatus="iteration"> --%>
-<!--                     <tr> -->
-<%--                         <td><c:out value="${list.personId}"></c:out></td> --%>
-<%--                         <td><c:out value="${list.firstName}"></c:out></td> --%>
-<%--                         <td><c:out value="${list.lastName}"></c:out></td> --%>
-<%--                         <td><c:out value="${list.email}"></c:out></td> --%>
-<%--                         <td><c:out value="${list.tel}"></c:out></td> --%>
-<%--                         <td><c:out value="${list.boxNumber}"></c:out></td> --%>
-<%--                         <td><c:out value="${list.type}"></c:out></td> --%>
-<!--                         <td><form action='./updateMailController' method='POST'> -->
-<!--                         		<input type='submit' value="Send notification"/> -->
-<%--                         		<input type='hidden' value='${list.personId}' name='mailId'/> --%>
-<!--                         	</form> -->
-<!--                         </td> -->
-<!--                     </tr> -->
-<%--                 </c:forEach> --%>
-<!--             </tbody> -->
-<!--         </table> -->
-<!--     </div> -->
-
-
 <!-- 	============================================================== -->
 	<div class="container"><br/>
 	<table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
@@ -82,22 +47,7 @@
                 </c:forEach>
 			    		    
 			  </tbody>
-<!-- 			  <tfoot> -->
-<!-- 			    <tr> -->
-<!-- 			      <th>Name -->
-<!-- 			      </th> -->
-<!-- 			      <th>Position -->
-<!-- 			      </th> -->
-<!-- 			      <th>Office -->
-<!-- 			      </th> -->
-<!-- 			      <th>Age -->
-<!-- 			      </th> -->
-<!-- 			      <th>Start date -->
-<!-- 			      </th> -->
-<!-- 			      <th>Salary -->
-<!-- 			      </th> -->
-<!-- 			    </tr> -->
-<!-- 			  </tfoot> -->
+
 			</table>
 		</div>
 

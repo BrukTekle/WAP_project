@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
+
 import edu.mum.mail.dao.LoginHistoryDAO;
 import edu.mum.mail.dao.userDAO;
 import edu.mum.mail.model.LoginHistory;
@@ -48,7 +50,8 @@ public class LoginValidator extends HttpServlet {
 		User user = new User(username,password);
        
 		try {
-			if(userDAO.login(user)!=null) {
+			 user=userDAO.login(user);
+			if(user!=null) {
 				HttpSession session=request.getSession();
 				session.setAttribute("user", user);
 				session.setAttribute("userRole", userDAO.getUserType(user));
@@ -61,8 +64,13 @@ public class LoginValidator extends HttpServlet {
 	            // set it in requestScope
 	            request.getSession().setAttribute("allUsers", allUsers);
 	            request.getSession().setAttribute("loginHistory", loginHistory);
-	            
-				response.sendRedirect("HomePage.jsp");
+	           
+	            if (userDAO.getUserType(user).equals("Admin")) {
+	            	response.sendRedirect("HomePage.jsp");	
+				}else {
+					response.sendRedirect("mailController");
+				}
+				
 				
 			}else {
 				boolean isErrorPresent=true;
