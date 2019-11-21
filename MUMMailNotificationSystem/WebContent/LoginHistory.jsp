@@ -20,52 +20,44 @@
 		  </c:if>
 		  
 		  
-		 		  <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+		  <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
 			  <thead>
 			    <tr>
 			      <th class="th-sm">UserName
 			
 			      </th>
 			     
-			      <th class="th-sm">UserRole
+			      <th class="th-sm">LoginDate
 			
 			      </th>
-			      <th class="th-sm">Person ID
+			      <th class="th-sm">LogoutDate
+				  </th>
+				  <th class="th-sm">IP Address
 				  </th>
 			    </tr>
 			  </thead>
 			  <tbody>
-			  <c:forEach var = "users" items = "${allUsers}">
+			  <c:forEach var = "login" items = "${loginHistory}">
 		  		<tr>
-			      <td><c:out value = "${users.userName}"> </c:out></td>
+			      <td><c:out value = "${login.userName}"> </c:out></td>
+			      <td><c:out value = "${login.loginDate}"> </c:out></td>
+			      <td><c:out value = "${login.logOutDate}"> </c:out></td>
+			      <td><c:out value = "${login.ipAddress}"> </c:out></td>
 			      
-			      <td>
-			      	<c:choose>
-					  <c:when test="${users.role == 1}">
-					    <c:out value = "Administrator"> </c:out>
-					  </c:when>
-					  <c:when test="${users.role == 2}">
-					    <c:out value = "Student"> </c:out>
-					  </c:when>
-					  <c:otherwise>
-					     <c:out value = "Faculty"> </c:out>
-					  </c:otherwise>
-					</c:choose>
-			      </td>
-			      <td><c:out value = "${users.personId}"> </c:out></td>
 		    	</tr>
 			  </c:forEach>
 			   
 			  </tbody>
 			  <tfoot>
 			    <tr>
-			      <th>Name
+			      <th>UserName
 			      </th>
-			      <th>UserRole
+			      <th>LoginDate
 			      </th>
-			      <th>Person ID
+			      <th>LogoutDate
 			      </th>
-			      
+			      <th>IP Address
+			      </th>
 			     
 			    </tr>
 			  </tfoot>

@@ -16,6 +16,12 @@ public class PersonType {
     }
 
     
+    public PersonType(int personTypeId, String type) {
+    	this.personTypeId=personTypeId;
+    	this.type = type;
+    	
+    }
+
     
 	
 

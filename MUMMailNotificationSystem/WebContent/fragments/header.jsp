@@ -13,12 +13,16 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="index.jsp">Home <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="Login">Login</a>
-                </li>
+                 <c:if test="${user.userName==null}">
+		  			   <li class="nav-item">
+                   		 <a class="nav-link" href="Login">Login</a>
+               		 </li>
+		 		 </c:if>
+             
+             
                 
                 <c:choose>
-                	<c:when test="${userRole=='Admin'}">
+                <c:when test="${userRole=='Admin'}">
                 		<li class="nav-item">
                     		<a class="nav-link" href="CreateUser">CreateUser</a>
                 		</li>
@@ -32,9 +36,10 @@
                     		<a class="nav-link" href="AdminMailController">List of Customers</a>
                 		</li>
                 		<li class="nav-item">
-                    		<a class="nav-link" href="about.jsp">LoginHistory</a>
+                    		<a class="nav-link" href="LoginHistory.jsp">LoginHistory</a>
                 		</li>
                 	</c:when>
+                	
                 	<c:when test="${userRole=='Student'}">
                 		<li class="nav-item">
 	                   		 <a class="nav-link" href="mailController">Check Mail</a>

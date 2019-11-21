@@ -26,9 +26,7 @@
 			      <th class="th-sm">UserName
 			
 			      </th>
-			      <th class="th-sm">Password
-			
-			      </th>
+			     
 			      <th class="th-sm">UserRole
 			
 			      </th>
@@ -37,41 +35,37 @@
 			    </tr>
 			  </thead>
 			  <tbody>
-			    <tr>
-			      <td>Tiger Nixon</td>
-			      <td>System Architect</td>
-			      <td>Edinburgh</td>
-			      <td>61</td>
+			  <c:forEach var = "users" items = "${allUsers}">
+		  		<tr>
+			      <td><c:out value = "${users.userName}"> </c:out></td>
 			      
-			    </tr>
-			    <tr>
-			      <td>Garrett Winters</td>
-			      <td>Accountant</td>
-			      <td>Tokyo</td>
-			      <td>63</td>
-			      
-			    </tr>
-			    <tr>
-			      <td>Ashton Cox</td>
-			      <td>Junior Technical Author</td>
-			      <td>San Francisco</td>
-			      <td>66</td>
-			      
-			    </tr>
-			    
+			      <td>
+			      	<c:choose>
+					  <c:when test="${users.role == 1}">
+					    <c:out value = "Administrator"> </c:out>
+					  </c:when>
+					  <c:when test="${users.role == 2}">
+					    <c:out value = "Student"> </c:out>
+					  </c:when>
+					  <c:otherwise>
+					     <c:out value = "Faculty"> </c:out>
+					  </c:otherwise>
+					</c:choose>
+			      </td>
+			      <td><c:out value = "${users.personId}"> </c:out></td>
+		    	</tr>
+			  </c:forEach>
 			   
-			    
 			  </tbody>
 			  <tfoot>
 			    <tr>
 			      <th>Name
 			      </th>
-			      <th>Position
+			      <th>UserRole
 			      </th>
-			      <th>Office
+			      <th>Person ID
 			      </th>
-			      <th>Age
-			      </th>
+			      
 			     
 			    </tr>
 			  </tfoot>

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +36,12 @@ public class AdminMailController extends HttpServlet {
     	List<Person> allPerson=new ArrayList<Person>();
 
 //        allMail=mailDAO.getAllMail();
-        allPerson=mailDAO.getAllPerson();
+        try {
+			allPerson=mailDAO.getAllPerson();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	for(Person list:allPerson) {
     		 int pid=list.getPersonId();
     		 String fName=list.getFirstName();
@@ -44,7 +50,13 @@ public class AdminMailController extends HttpServlet {
     		 String tel=list.getTel();
     		 String boxNumber=list.getBoxNumber();
     		 int typeId=list.getType();
-    		 String type=mailDAO.getPersonType(typeId);
+    		 String type="";
+			try {
+				type = mailDAO.getPersonType(typeId);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
     		 System.out.println("type= "+type);
     		 PersonView newPerson=new PersonView(pid,fName,lName,email,tel,boxNumber,type);
     		 personList.add(newPerson);

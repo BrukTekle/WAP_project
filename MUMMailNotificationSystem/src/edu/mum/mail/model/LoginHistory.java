@@ -1,6 +1,6 @@
 package edu.mum.mail.model;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class LoginHistory {
 
@@ -24,7 +24,7 @@ public class LoginHistory {
 		return userName;
 	}
 
-	public void setUserId(String userName) {
+	public void setUserName(String userName) {
 		this.userName = userName;
 	}
 	public Date getLoginDate() {

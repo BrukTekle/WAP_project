@@ -17,7 +17,7 @@ import java.util.List;
 public class PersonTypeDAO {
 
     private DataSource dataSource;
-  
+    private Connection connection;
     public PersonTypeDAO() {
         try {
             Context initContext = new InitialContext();
@@ -28,10 +28,10 @@ public class PersonTypeDAO {
         }
     }
 
-    public List<PersonType> getAllPersonTypeFormData() {
+    public List<PersonType> getAllPersonTypeFormData() throws SQLException {
         List<PersonType> list = new ArrayList<>();
         try {
-            Connection connection = dataSource.getConnection();
+            connection = dataSource.getConnection();
             PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM `mum-mail-notification-system`.person_type order by personTypeId");
            
             ResultSet rs = pstmt.executeQuery();
@@ -40,12 +40,14 @@ public class PersonTypeDAO {
                 int personTypeId = rs.getInt("personTypeId");
                 String type = rs.getString("type");
                 
-                PersonType data = new PersonType (type);
+                PersonType data = new PersonType (personTypeId,type);
                 list.add(data);
             }
         } catch (SQLException e) {
             System.err.println(e);
-        }
+        }finally {
+	    	  connection.close();
+	      }
         return list;
     }
 }

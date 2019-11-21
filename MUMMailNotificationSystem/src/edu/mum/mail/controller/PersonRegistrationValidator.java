@@ -15,6 +15,7 @@ import edu.mum.mail.model.PersonRegistration;
 import edu.mum.mail.model.PersonType;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -30,7 +31,9 @@ public class PersonRegistrationValidator extends HttpServlet {
 	private RegistrationDAO registrationDAO;
 	private PersonTypeDAO personTypeDao;
 	public PersonRegistrationValidator() {
+		
 		registrationDAO=new RegistrationDAO();
+		
 		personTypeDao=new PersonTypeDAO();
 	}
 	@Override
@@ -43,7 +46,7 @@ public class PersonRegistrationValidator extends HttpServlet {
         String type = request.getParameter("pType");
         System.out.println("fname = "+ firstName + ", lname = " + lastName + ", ptype = " + type + ", email = " + email + ", phone = " + tel + ", boxnumber = " + boxNumber);
         PersonRegistration personregistration = new PersonRegistration(firstName, lastName, type, email, tel, boxNumber );
-        Person personregistration = new Person(firstName, lastName, type, email, tel, boxNumber );
+        //Person personregistration = new Person(firstName, lastName, type, email, tel, boxNumber );
         request.setAttribute("personregistration", personregistration);
         // Check for missing fields data
         String missingFieldsMsg = "";
@@ -73,7 +76,12 @@ public class PersonRegistrationValidator extends HttpServlet {
             rd.forward(request, response);
         } else {
   
-        	registrationDAO.saveContactFormData(personregistration);
+        	try {
+				registrationDAO.saveContactFormData(personregistration);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
             String currDateTime = ZonedDateTime.now().format(DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy - h:mm:ss a zzzz"));
             request.setAttribute("currDateTime", currDateTime);
             // forward ahead to thank-you
@@ -84,7 +92,13 @@ public class PersonRegistrationValidator extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	List<PersonType> listPersonType= personTypeDao.getAllPersonTypeFormData();
+    	List<PersonType> listPersonType = null;
+		try {
+			listPersonType = personTypeDao.getAllPersonTypeFormData();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
     	request.getSession().setAttribute("ListPersonType", listPersonType);
     	System.out.println(listPersonType);

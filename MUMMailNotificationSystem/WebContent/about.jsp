@@ -32,7 +32,7 @@
                     <br/>
        
         <br/><br/>
-        <p>Please feel free to <a href="./contact-form" class="card-link">Contact Us</a> again</p>
+        <p>Please feel free to <a href="#" class="card-link">Contact Us</a> again</p>
     </div>
     </div>
     </p>

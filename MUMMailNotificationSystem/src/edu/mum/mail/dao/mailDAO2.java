@@ -20,7 +20,7 @@ public class mailDAO2 {
 //================================================
 
   private DataSource dataSource;
-
+  private Connection connection;
   public mailDAO2() {
       try {
           Context initContext = new InitialContext();
@@ -32,10 +32,10 @@ public class mailDAO2 {
   }
 
   //to get all mail of a specific person
-  public List<mail> getMail(int personId) {
+  public List<mail> getMail(int personId) throws SQLException {
       List<mail> list = new ArrayList<>();
       try {
-          Connection connection = dataSource.getConnection();     
+           connection = dataSource.getConnection();     
 //          PreparedStatement pstmt = connection.prepareStatement("SELECT mailId, deliveryDate, sender, deliveredBy, status FROM `mum-mail-notification-system`.mail"
 //          		+ "where personId='"+personId+"' order by deliveryDate");
           PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM `mum-mail-notification-system`.mail "
@@ -54,16 +54,18 @@ public class mailDAO2 {
           }
       } catch (SQLException e) {
           System.err.println(e);
+      }finally {
+    	  connection.close();
       }
       return list;
   }
   
   //get mail with specific status
-  public List<mail> getStatusMail(int state) {
+  public List<mail> getStatusMail(int state) throws SQLException {
       List<mail> list = new ArrayList<>();
-      Connection connection;
+      
       try {
-          connection = dataSource.getConnection();     
+           connection= dataSource.getConnection();     
 
           PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM `mum-mail-notification-system`.mail "
           		+ "where status="+state+" order by deliveryDate");
@@ -82,14 +84,16 @@ public class mailDAO2 {
           }
       } catch (SQLException e) {
           System.err.println(e);
+      }finally {
+    	  connection.close();
       }
       return list;
   }
   
-  public String getPersonName(int personId) {
+  public String getPersonName(int personId) throws SQLException {
 	  String fullName="";
       try {
-          Connection connection = dataSource.getConnection();     
+           connection = dataSource.getConnection();     
           PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM `mum-mail-notification-system`.person "
           		+ "where personId='"+personId+"'");
           ResultSet rs = pstmt.executeQuery();
@@ -101,15 +105,17 @@ public class mailDAO2 {
               
       } catch (SQLException e) {
           System.err.println(e);
+      }finally {
+    	  connection.close();
       }
       return fullName;
   }
   
   //get status Name from ststus id
-  public String getStatusName(int statusId) {
+  public String getStatusName(int statusId) throws SQLException {
 	  String status="";
       try {
-          Connection connection = dataSource.getConnection();     
+           connection = dataSource.getConnection();     
           PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM `mum-mail-notification-system`.mail_status "
           		+ "where mailStatusId="+statusId);
           ResultSet rs = pstmt.executeQuery();
@@ -120,14 +126,16 @@ public class mailDAO2 {
 
       } catch (SQLException e) {
           System.err.println(e);
+      }finally {
+    	  connection.close();
       }
       return status;
   }
   
-  public List<mail> getAllMail() {
+  public List<mail> getAllMail() throws SQLException {
       List<mail> list = new ArrayList<>();
       try {
-          Connection connection = dataSource.getConnection();     
+           connection = dataSource.getConnection();     
           PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM `mum-mail-notification-system`.mail "
           		+ " order by deliveryDate");
           ResultSet rs = pstmt.executeQuery();        
@@ -143,15 +151,17 @@ public class mailDAO2 {
           }
       } catch (SQLException e) {
           System.err.println(e);
+      }finally {
+    	  connection.close();
       }
       return list;
   }
   
   //get all person
-  public List<Person> getAllPerson() {
+  public List<Person> getAllPerson() throws SQLException {
       List<Person> list = new ArrayList<>();
       try {
-          Connection connection = dataSource.getConnection();     
+           connection = dataSource.getConnection();     
           PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM `mum-mail-notification-system`.person "
           		+ " order by firstName");
           ResultSet rs = pstmt.executeQuery();        
@@ -168,15 +178,17 @@ public class mailDAO2 {
           }
       } catch (SQLException e) {
           System.err.println(e);
+      }finally {
+    	  connection.close();
       }
       return list;
   }
   
   //get person type
-  public String getPersonType(int typeId) {
+  public String getPersonType(int typeId) throws SQLException {
       String type ="";
       try {
-          Connection connection = dataSource.getConnection();     
+           connection = dataSource.getConnection();     
           PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM `mum-mail-notification-system`.person_type "
           		+ "where personTypeID='"+typeId+"'");
           ResultSet rs = pstmt.executeQuery();        
@@ -186,16 +198,18 @@ public class mailDAO2 {
           }
       } catch (SQLException e) {
           System.err.println(e);
+      }finally {
+    	  connection.close();
       }
       System.out.println("person type= "+ type);
       return type;
   }
   
   //to get filtered mail list
-  public List<mail> getFilteredMail(String text) {
+  public List<mail> getFilteredMail(String text) throws SQLException {
       List<mail> list = new ArrayList<>();
       try {
-          Connection connection = dataSource.getConnection();     
+           connection = dataSource.getConnection();     
 
           PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM `mum-mail-notification-system`.mail "
           		+ "where personId='"+text+"' OR deliveryDate LIKE '%"+text+"%' OR sender LIKE '%"+text+"%' OR " + 
@@ -214,14 +228,16 @@ public class mailDAO2 {
           }
       } catch (SQLException e) {
           System.err.println(e);
+      }finally {
+    	  connection.close();
       }
       return list;
   }
   
   //to save new mail
-  public boolean saveMail(mail mailOb) {
+  public boolean saveMail(mail mailOb) throws SQLException {
       try {
-          Connection connection = dataSource.getConnection();
+           connection = dataSource.getConnection();
           PreparedStatement pstmt = connection.prepareStatement("insert into `mum-mail-notification-system`.mail (deliveryDate, sender, deliveredBy, status, personId) values (?, ?, ?, ?,?)");
           pstmt.setDate(1, (java.sql.Date) mailOb.getDeliveryDate());
           pstmt.setString(2, mailOb.getSender());
@@ -231,14 +247,16 @@ public class mailDAO2 {
           pstmt.executeUpdate();
       } catch (SQLException e) {
           System.err.println(e);
+      }finally {
+    	  connection.close();
       }
       return true;
   }
   
   //to update mail status
-  public boolean updateMail(int mailId, int status) {
+  public boolean updateMail(int mailId, int status) throws SQLException {
       try {
-          Connection connection = dataSource.getConnection();
+           connection = dataSource.getConnection();
           PreparedStatement pstmt = connection.prepareStatement("UPDATE `mum-mail-notification-system`.mail SET `status`=? where mailId=?");
 
           pstmt.setInt (1, status);
@@ -246,6 +264,8 @@ public class mailDAO2 {
           pstmt.executeUpdate();
       } catch (SQLException e) {
           System.err.println(e);
+      }finally {
+    	  connection.close();
       }
       return true;
   }

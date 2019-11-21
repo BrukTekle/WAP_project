@@ -39,7 +39,7 @@
                 </div>
                 <div class="form-group">
                     <label for="customerName">*Phone:</label> <%-- Customer name  changed to lName and aria-describedby to be deleted if have no impact the format--%>
-                    <input type="text" class="form-control" id="phone" name="phone" aria-describedby="customerNameHelp" pattern ="+1\d{3}\d{3}\d{4}"placeholder="" title="Enter phone" autofocus>
+                    <input type="text" class="form-control" id="phone" name="phone" aria-describedby="customerNameHelp" pattern ="^(\+1)\d{10}" placeholder="+1XXXXXXXXXX" title="Enter phone" autofocus>
                     <small id="customerNameHelp" class="form-text text-muted">Enter phone number.</small>
                 </div>
                 
@@ -50,7 +50,7 @@
                           <select class="custom-select" name="pType" aria-label="Example select with button addon">
                            <option selected value="null">Choose...</option>
                             <c:forEach items="${ListPersonType}" var="per">
-                                 <option selected value="${per.type}"><c:out value="${per.type}"></c:out>
+                                 <option selected value="${per.personTypeId}"><c:out value="${per.type}"></c:out>
                                  </option>
                                    
                             </c:forEach>

@@ -17,7 +17,7 @@ import java.util.List;
 public class RegistrationDAO {
 
     private DataSource dataSource;
-  
+    private Connection connection;
     public RegistrationDAO() {
         try {
             Context initContext = new InitialContext();
@@ -28,10 +28,10 @@ public class RegistrationDAO {
         }
     }
 
-    public List<PersonRegistration> getAllPersonFormData() {
+    public List<PersonRegistration> getAllPersonFormData() throws SQLException {
         List<PersonRegistration> list = new ArrayList<>();
         try {
-            Connection connection = dataSource.getConnection();
+             connection = dataSource.getConnection();
             PreparedStatement pstmt = connection.prepareStatement("SELECT `personId`, `firstName`, `lastName`, `type`, `email`, `phone`, `boxnumber` FROM `mum-mail-notification-system`.person order by personId");
             ResultSet rs = pstmt.executeQuery();
             while(rs.next()) {
@@ -47,25 +47,29 @@ public class RegistrationDAO {
             }
         } catch (SQLException e) {
             System.err.println(e);
-        }
+        }finally {
+	    	  connection.close();
+	      }
         return list;
     }
 
-    public PersonRegistration saveContactFormData(PersonRegistration registrationData) {
+    public PersonRegistration saveContactFormData(PersonRegistration registrationData) throws SQLException {
         try {
-            Connection connection = dataSource.getConnection();
+             connection = dataSource.getConnection();
             PreparedStatement pstmt = connection.prepareStatement("insert into `mum-mail-notification-system`.person (`firstName`, `lastName`, `type`, `email`, `tel`, `boxNumber`) values (?, ?, ?, ?, ?, ?)");
             pstmt.setString(1, registrationData.getFname());
             pstmt.setString(2, registrationData.getLname());
             pstmt.setString(3, registrationData.getPtype());
-            pstmt.setInt(3, 1);
+//            pstmt.setInt(3, registrationData.get);
             pstmt.setString(4, registrationData.getEmail());
             pstmt.setString(5, registrationData.getPhone());
             pstmt.setString(6, registrationData.getBoxnumber());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.err.println(e);
-        }
+        }finally {
+	    	  connection.close();
+	      }
         return registrationData;
     }
 

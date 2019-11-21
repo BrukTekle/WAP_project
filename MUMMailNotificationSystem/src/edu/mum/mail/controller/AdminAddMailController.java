@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -68,7 +69,12 @@ public class AdminAddMailController extends HttpServlet {
            Date d=new Date(20191212);
 
 					mailOb = new mail(d, sender, deliveredBy, 1, Integer.parseInt(personId));
-					mailDAO.saveMail(mailOb);
+					try {
+						mailDAO.saveMail(mailOb);
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 
 				      response.sendRedirect("admin-person-list.jsp");
 

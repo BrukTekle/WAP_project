@@ -11,8 +11,11 @@ import edu.mum.mail.dao.userDAO;
 import edu.mum.mail.model.User;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet(name = "CreateUserDataValidator", urlPatterns = {"/CreateUserValidator"}, description = "CreateUserDataValidator")
 public class createUserValidator extends HttpServlet {
@@ -28,8 +31,6 @@ public class createUserValidator extends HttpServlet {
         int role = Integer.parseInt(request.getParameter("ddluserRole"));
         int personId = Integer.parseInt(request.getParameter("ddlPerson"));
       
-        User user = new User(userName, password, role, personId);
-        request.setAttribute("createduser", user);
         // Check for missing fields data
         String missingFieldsMsg = "";
         if(userName.equals("")) {
@@ -52,12 +53,9 @@ public class createUserValidator extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher("/CreateUser");
             rd.forward(request, response);
         } else {
+        	User user = new User(userName, password, role, personId);
+            request.setAttribute("createduser", user);
         	//Save data to the database 
-        	//User currentUser = (User)request.getAttribute("createduser");
-        	System.out.println(user.getUserName());
-        	System.out.println(user.getPassword());
-        	System.out.println(user.getRole());
-        	System.out.println(user.getPersonId());
         	
             User savedUser=null;
 			try {
@@ -66,9 +64,17 @@ public class createUserValidator extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-            
+			
+            List<User> allUsers=new ArrayList<User>();
+			try {
+				allUsers = userDAO.getAllUsers();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
             // set it in requestScope
-            request.setAttribute("savedUser", savedUser);
+            request.getSession().setAttribute("allUsers", allUsers);
+            
             RequestDispatcher rd = request.getRequestDispatcher("ListofUsers.jsp");
             rd.forward(request, response);
         }

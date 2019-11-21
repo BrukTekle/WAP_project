@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,11 +28,21 @@ public class updateMailController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	String mailId=request.getParameter("mailId");
     	int id= Integer.parseInt(mailId);
-    	mailDAO.updateMail(id, 2);
+    	try {
+			mailDAO.updateMail(id, 2);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	
     	List<mailView> mailList=new ArrayList<mailView>();
     	List<mail> updatedMail=new ArrayList<mail>();
-    	updatedMail=mailDAO.getStatusMail(1);
+    	try {
+			updatedMail=mailDAO.getStatusMail(1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	for(mail list:updatedMail) {
     		 int mid=list.getMailId();
     		 Date deliveryDate=(Date) list.getDeliveryDate();
@@ -39,8 +50,20 @@ public class updateMailController extends HttpServlet {
     		 String deliveredBy=list.getDeliveredBy();
     		 int statusId=list.getStatus();
     		 int personId=list.getPersonId();
-    		 String fullName=mailDAO.getPersonName(personId);
-    		 String status=mailDAO.getStatusName(statusId);
+    		 String fullName="";
+			try {
+				fullName = mailDAO.getPersonName(personId);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		 String status="";
+			try {
+				status = mailDAO.getStatusName(statusId);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
     		 mailView newMail=new mailView(mid,deliveryDate,sender,deliveredBy,status,fullName);
     		 mailList.add(newMail);
     	}

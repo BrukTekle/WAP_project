@@ -24,17 +24,17 @@
                     <h2>Thank you! Your message has been received as follows:</h2>
                 </div>
                 <div class="card-body">
-                    <h4 class="card-title">First Name: <c:out value="${personregistration.fName}"></c:out></h4>
+                    <h4 class="card-title">First Name: <c:out value="${PesrsonRegistration.fname}"></c:out></h4>
                     <br/>
-                    <h5 class="card-subtitle mb-2 text-muted">Last Name: <c:out value="${personregistration.lName}"></c:out></h5>
+                    <h5 class="card-subtitle mb-2 text-muted">Last Name: <c:out value="${PesrsonRegistration.lname}"></c:out></h5>
                     <br/>
-                    <h5 class="card-subtitle mb-2 text-muted">Email: <c:out value="${personregistration.email}"></c:out></h5>
+                    <h5 class="card-subtitle mb-2 text-muted">Email: <c:out value="${PesrsonRegistration.email}"></c:out></h5>
                     <br/>
-                    <h4 class="card-title">Person Type: <c:out value="${personregistration.type}"></c:out></h4>
+                    <h4 class="card-title">Person Type: <c:out value="${PesrsonRegistration.ptype}"></c:out></h4>
                     <br/>
-                    <h5 class="card-subtitle mb-2 text-muted">Phone: <c:out value="${personregistration.tel}"></c:out></h5>
+                    <h5 class="card-subtitle mb-2 text-muted">Phone: <c:out value="${PesrsonRegistration.phone}"></c:out></h5>
                     <br/>
-                    <h5 class="card-subtitle mb-2 text-muted">Box Number: <c:out value="${personregistration.boxNumber}"></c:out></h5>
+                    <h5 class="card-subtitle mb-2 text-muted">Box Number: <c:out value="${PesrsonRegistration.boxnumber}"></c:out></h5>
         <br/><br/>
         <p>Please feel free to <a href="./contact-form" class="card-link">Contact Us</a> again</p>
     </div>
